@@ -17,4 +17,28 @@ https://velog.io/@calzone0404/%ED%95%99%EC%8A%B5-%EC%A0%95%EB%A6%AC-Chapter-2.-%
 6. python manage.py migrate
 
 ####
+
 장고 셀 작동 : python manage.py shell
+
+장고셀 작동후 아래를 차례대로 작동
+from study_example.models import Posting
+
+Posting.objects.create(id=1,owner_name="홍길동",contents='')
+Posting.objects.create(id=2,owner_name="여우랑",contents='')
+Posting.objects.create(id=3,owner_name="안국진",contents='')
+
+In [9]: Posting.objects.latest()
+Out[9]: <Posting: Posting object (3)> # 여현구를 의미 - 가장 최근에 수정한 게시물을 가져온다.
+
+In [10]: p = Posting.objects.get(id=1)
+
+In [11]: p.owner_name = "홍철수"
+
+In [12]: p.save()
+
+In [13]: Posting.objects.latest()
+Out[13]: <Posting: Posting object (1)> # 홍철수를 의미 - 가장 최근에 수정한 게시물을 가져온다.
+
+
+### ordering 기본값 : None
+Django ORM을 이용하여 데이터 조회 시 정렬 방법을 설정할 때 사용한다. 기본값으로 primary key (id)값으로 설정되어 있다.
