@@ -15,3 +15,6 @@ https://velog.io/@calzone0404/%ED%95%99%EC%8A%B5-%EC%A0%95%EB%A6%AC-Chapter-2.-%
 5. python manage.py makemigrations study_example
 
 6. python manage.py migrate
+
+####
+장고 셀 작동 : python manage.py shell
