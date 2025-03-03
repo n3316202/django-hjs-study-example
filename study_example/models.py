@@ -45,51 +45,25 @@ class Product(models.Model):
             )
         )
 
+# Create your models here.
 
-# In [4]: from study_example.models import Product
+class Movie(models.Model) :
+  title             = models.CharField(max_length=45)
+  release_date      = models.DateField()
+  running_time_min  = models.IntegerField(null=True)
+  actors            = models.ManyToManyField("Actor", db_table="movie_actor" )
+  # 영화가 배우를 정참조 ↔ 배우는 영화를 역참조(_set)
+  # through를 통해 DB내에 자동으로 생성되는 movie_actor 테이블 생성
 
-# In [5]: Product.objects.create(id=1,name="사과",price=1000)
-# Out[5]: <Product: Product object (1)>
+  class Meta: 
+    db_table = "movies"
 
-# In [6]: Product.objects.create(id=1,name="사과",price=-100)
+class Actor(models.Model) :
+  first_name    = models.CharField(max_length=45)
+  last_name     = models.CharField(max_length=45)
+  date_of_birth = models.DateField()
+
+  class Meta : 
+    db_table = "actors"
 
 
-#[Django] QuerySet에서 사용하는 '__'의 의미
-#https://kimcoder.tistory.com/589
-
-#1.첫번째 의미
-#- exact, contains, in, gt, lt, startswith 등과 같은 필드 룩업을 사용하겠다는 의미 = where 조건절을 의미
-
-#https://docs.djangoproject.com/en/4.1/ref/models/querysets/#field-lookups 참고
-
-##예)
-#- exact  = is null
-
-#Entry.objects.get(id__exact=14)
-#Entry.objects.get(id__exact=None)
-
-#SELECT ... WHERE id = 14;
-#SELECT ... WHERE id IS NULL;
-
-#2.두번째 의미
-
-#2. 외래키 모델 속성 참조
-#- 외래키 모델의 속성을 참조할 때에도 속성명 앞에 '__'를 붙인다.
-
-# 예시
-
-# 다음과 같이 Employee의 외래키를 User로 지정했다고 하자. 속성명은 user다.
-
-# class Employee(models.Model):
-#     ...
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-# User 객체의 username 속성값이 mark인 객체를 찾으려면 다음과 같이 접근하면 된다.
-
-# Employee.objects.filter(user__username = 'Kim Jooyeok')
- 
-
- 
-
-# 참고로, 위에서 설명한 두가지 방법을 한 번에 같이 사용할 수도 있다. 아래 예시에서는 User 객체의 username이 'Kim'으로 시작하는 Employee 객체들을 반환한다.
-
-# Employee.objects.filter(user__username__startswith = 'Kim')
