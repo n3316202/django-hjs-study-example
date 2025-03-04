@@ -94,3 +94,35 @@ class Entry(models.Model):
 
     def __str__(self):
         return self.headline
+
+#dev_8
+
+class Department(models.Model):
+    deptno = models.PositiveSmallIntegerField(primary_key=True)
+    dname = models.CharField(max_length=14)
+    loc = models.CharField(max_length=13)
+
+    def __str__(self):
+        return self.dname
+
+class Employee(models.Model):
+    empno = models.PositiveIntegerField(primary_key=True)
+    ename = models.CharField(max_length=10)
+    job = models.CharField(max_length=9)
+    mgr = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    hiredate = models.DateField()
+    sal = models.DecimalField(max_digits=7, decimal_places=2)
+    comm = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
+    deptno = models.ForeignKey(Department, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.ename
+
+class SalaryGrade(models.Model):
+    grade = models.PositiveIntegerField(primary_key=True)
+    losal = models.PositiveIntegerField()
+    hisal = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"Grade {self.grade}"
+    
